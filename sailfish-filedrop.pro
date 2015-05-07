@@ -3,7 +3,8 @@ TEMPLATE = app
 QT += qml quick
 
 SOURCES += main.cpp \
-    backendengineinterface.cpp
+    controller/backendengineinterface.cpp \
+    networking/networkdiscoverythread.cpp
 
 RESOURCES += qml.qrc
 
@@ -14,5 +15,6 @@ QML_IMPORT_PATH =
 include(deployment.pri)
 
 HEADERS += \
-    sailfish-filedrop-defines.h \
-    backendengineinterface.h
+    common/sailfish-filedrop-defines.h \
+    controller/backendengineinterface.h \
+    networking/networkdiscoverythread.h

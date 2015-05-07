@@ -2,7 +2,7 @@
 #include <QQmlApplicationEngine>
 #include <QQmlContext>
 
-#include "backendengineinterface.h"
+#include "controller/backendengineinterface.h"
 
 int main(int argc, char *argv[])
 {
@@ -12,7 +12,7 @@ int main(int argc, char *argv[])
     engine.load(QUrl(QStringLiteral("qrc:/main.qml")));
 
     QQmlContext * rootCtx = engine.rootContext();
-    rootCtx->setContextProperty("backendEngineInterface", BackendEngineInterface::getInstance());
+    rootCtx->setContextProperty("backendEngineInterface", controller::getBackendEngineInterface());
 
     return app.exec();
 }
