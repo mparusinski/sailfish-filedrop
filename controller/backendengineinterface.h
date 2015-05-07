@@ -3,23 +3,27 @@
 
 #include <QObject>
 
-class BackendEngineInterface : public QObject
-{
-    Q_OBJECT
-public:
-    static BackendEngineInterface* getInstance();
+namespace controller {
 
-signals:
+	class BackendEngineInterface : public QObject
+	{
+	    Q_OBJECT
+	public:
+	    static BackendEngineInterface* getInstance();
 
-public slots:
+	signals:
 
-private:
-    Q_DISABLE_COPY(BackendEngineInterface)
-    explicit BackendEngineInterface(QObject *parent = 0);
+	public slots:
 
-    static BackendEngineInterface* instance;
-};
+	private:
+	    Q_DISABLE_COPY(BackendEngineInterface)
+	    explicit BackendEngineInterface(QObject *parent = 0);
 
-BackendEngineInterface* getBackendEngineInterface();
+	    static BackendEngineInterface* instance;
+	};
+
+	BackendEngineInterface* getBackendEngineInterface();
+
+} // namespace controller
 
 #endif // BACKENDENGINEINTERFACE_H

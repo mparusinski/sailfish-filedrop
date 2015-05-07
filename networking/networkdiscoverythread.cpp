@@ -1,26 +1,30 @@
 #include "networkdiscoverythread.h"
 
-NetworkDiscoveryThread* NetworkDiscoveryThread::instance = NULL;
+namespace networking {
 
-NetworkDiscoveryThread::NetworkDiscoveryThread(QThread *parent) : QThread(parent)
-{
+	NetworkDiscoveryThread* NetworkDiscoveryThread::instance = NULL;
 
-}
+	NetworkDiscoveryThread::NetworkDiscoveryThread(QThread *parent) : QThread(parent)
+	{
 
-NetworkDiscoveryThread* NetworkDiscoveryThread::getInstance()
-{
-	if (instance == NULL) {
-		instance = new NetworkDiscoveryThread;
 	}
-	return instance;
-}
 
-void NetworkDiscoveryThread::run()
-{
-	// TODO: Implement this function
-}
+	NetworkDiscoveryThread* NetworkDiscoveryThread::getInstance()
+	{
+		if (instance == NULL) {
+			instance = new NetworkDiscoveryThread;
+		}
+		return instance;
+	}
 
-NetworkDiscoveryThread* getNetworkDiscoveryThread()
-{
-	return NetworkDiscoveryThread::getInstance();
-}
+	void NetworkDiscoveryThread::run()
+	{
+		// TODO: Implement this function
+	}
+
+	NetworkDiscoveryThread* getNetworkDiscoveryThread()
+	{
+		return NetworkDiscoveryThread::getInstance();
+	}
+
+} // namespace networking

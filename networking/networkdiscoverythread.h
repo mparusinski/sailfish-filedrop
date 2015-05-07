@@ -3,25 +3,29 @@
 
 #include <QThread>
 
-class NetworkDiscoveryThread : public QThread
-{
-    Q_OBJECT
-public:
-	static NetworkDiscoveryThread* getInstance();
+namespace networking {
 
-    void run();
+	class NetworkDiscoveryThread : public QThread
+	{
+	    Q_OBJECT
+	public:
+		static NetworkDiscoveryThread* getInstance();
 
-signals:
+	    void run();
 
-public slots:
+	signals:
 
-private:
-	Q_DISABLE_COPY(NetworkDiscoveryThread)
-	explicit NetworkDiscoveryThread(QThread *parent = 0);
+	public slots:
 
-	static NetworkDiscoveryThread* instance;
-};
+	private:
+		Q_DISABLE_COPY(NetworkDiscoveryThread)
+		explicit NetworkDiscoveryThread(QThread *parent = 0);
 
-NetworkDiscoveryThread* getNetworkDiscoveryThread();
+		static NetworkDiscoveryThread* instance;
+	};
+
+	NetworkDiscoveryThread* getNetworkDiscoveryThread();							
+
+}
 
 #endif // NETWORKDISCOVERYTHREAD_H
