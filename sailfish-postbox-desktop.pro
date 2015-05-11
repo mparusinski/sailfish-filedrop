@@ -15,6 +15,6 @@ QML_IMPORT_PATH =
 include(deployment.pri)
 
 HEADERS += \
-    common/sailfish-filedrop-defines.h \
+    common/sailfish-postbox-desktop-defines.h \
     controller/backendengineinterface.h \
     networking/networkdiscoverythread.h
