@@ -31,51 +31,72 @@
 #define NETWORKDISCOVERYTHREAD_H
 
 #include <QThread>
+#include <QSharedPointer>
+#include <QNetworkInterface>
+#include <QNetworkAddressEntry>
+#include <QList>
+#include <QLinkedList>
+
+#include "devices.h"
 
 namespace networking {
 
+#define DEFAULT_WAITING_TIME 5
+#define NO_CONNECTION_WAITING_TIME 1
+
 	/*!
 	 * \brief NetworkDiscoveryThread is the thread responsible for discovery 
-	 *        sailfish devices on the local network. [SINGLETON]
+	 *        sailfish devices on the local network.
 	 *
 	 * NetworkDiscoveryThread is a thread that polls the local network for
 	 * sailfish devices. It also keeps checking if the devices are available.
 	 * The thread also takes care of informing the UI when connecting is lost
 	 * or when a connection is made.
-	 *
-	 * NetworkingDiscoveryThread is a singleton class and should be invoked
-	 * using getNetworkDiscoveryThread()
 	 */
 	class NetworkDiscoveryThread : public QThread
 	{
 	    Q_OBJECT
 	public:
-		/*!
-		 * \brief getInstance is a function that returns the unique instance of 
-		 *        the class.
-		 * \warning To get the singleton instance please use 
-		 *          getNetworkDiscoveryThread
-		 */
-		static NetworkDiscoveryThread* getInstance();
+		typedef QSharedPointer<NetworkDiscoveryThread> NetworkDiscoveryThreadPtr;
+
+		explicit NetworkDiscoveryThread(QThread *parent = 0);
 
 	    void run();
 
 	signals:
+		void discoveredNewDevice(Device::DevicePtr& device);
+
+		void lostConnectionToDevice(Device::DevicePtr& device);
 
 	public slots:
 
 	private:
+		typedef QLinkedList<Device::DevicePtr> DeviceCollection;
+		typedef QMutableLinkedListIterator<Device::DevicePtr> MutableDeviceCollectionIterator;
+
 		Q_DISABLE_COPY(NetworkDiscoveryThread)
-		explicit NetworkDiscoveryThread(QThread *parent = 0);
 
-		static NetworkDiscoveryThread* instance;
+		/*!
+		 * \brief Check all known Sailfish Postbox devices to see if they are still online
+		 * \return Number of devices lost due to timeout
+		 */
+		unsigned int pingKnownNetworkDevices();
+
+		/*!
+		 * \brief Check local network for new Sailfish devices
+		 * \return Number of new devices found
+		 */
+		unsigned int pollNetworkForNewDevices();
+
+		/*!
+		 * \brief Force the thread to sleep m_secondsToWait number of seconds
+		 */
+		void waitInBetweenNetworkPolling() const;
+
+		unsigned long m_secondsToWait;
+		DeviceCollection m_devices;
+		LocalNetworkProfile m_localNetworkProfile;
 	};
-
-	/*!
-	 * \brief returns the unique instance of NetworkDiscoverThread
-	 */
-	NetworkDiscoveryThread* getNetworkDiscoveryThread();							
-
 }
 
 #endif // NETWORKDISCOVERYTHREAD_H

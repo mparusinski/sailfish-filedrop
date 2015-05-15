@@ -29,31 +29,55 @@
 
 #include "networkdiscoverythread.h"
 
-namespace networking {
+#include <QHostAddress>
 
-	NetworkDiscoveryThread* NetworkDiscoveryThread::instance = NULL;
+namespace networking {
 
 	NetworkDiscoveryThread::NetworkDiscoveryThread(QThread *parent) : QThread(parent)
 	{
-
-	}
-
-	NetworkDiscoveryThread* NetworkDiscoveryThread::getInstance()
-	{
-		if (instance == NULL) {
-			instance = new NetworkDiscoveryThread;
-		}
-		return instance;
+		m_secondsToWait = DEFAULT_WAITING_TIME; // Starting value is 5 seconds
 	}
 
 	void NetworkDiscoveryThread::run()
-	{
-		// TODO: Implement this function
+	{	
+		forever {
+			m_localNetworkProfile.acquireNetworkingInterfaceInformation();
+			if (m_localNetworkProfile.anyValidNetworkInterface()) {
+				pingKnownNetworkDevices();
+				pollNetworkForNewDevices();
+				m_secondsToWait = DEFAULT_WAITING_TIME;
+			} else { 
+				// Will check network connectivity more often because
+				// 1 - There is no new devices to find
+				// 2 - There are no addresses to poll
+				m_secondsToWait = NO_CONNECTION_WAITING_TIME;
+			}
+			waitInBetweenNetworkPolling();
+		}
 	}
 
-	NetworkDiscoveryThread* getNetworkDiscoveryThread()
+	unsigned int NetworkDiscoveryThread::pingKnownNetworkDevices() 
 	{
-		return NetworkDiscoveryThread::getInstance();
+		int countLost = 0;
+		MutableDeviceCollectionIterator iter(m_devices);
+		while (m_devices.hasNext()) {
+			Device::DevicePtr device = iter.next();
+			if (!device->pingDevice()) {
+				countLost++;
+				iter.remove();
+			}
+		}
+		return countLost;
+	}
+
+	unsigned int NetworkDiscoveryThread::pollNetworkForNewDevices()
+	{
+
+	}
+
+	void NetworkDiscoveryThread::waitInBetweenNetworkPolling() const
+	{
+		sleep(m_secondsToWait);
 	}
 
 } // namespace networking
