@@ -30,18 +30,26 @@
 #include <QGuiApplication>
 #include <QQmlApplicationEngine>
 #include <QQmlContext>
+#include <QPointer>
 
 #include "controller/backendengineinterface.h"
 
 int main(int argc, char *argv[])
 {
+	typedef QPointer<controller::BackendEngineInterface> BackendEngineInterfacePtr;
     QGuiApplication app(argc, argv);
 
     QQmlApplicationEngine engine;
     engine.load(QUrl(QStringLiteral("qrc:/main.qml")));
 
+    BackendEngineInterfacePtr backendEngineInterface = 
+    	new controller::BackendEngineInterface;
+    if (!backendEngineInterface->initializeBackend()) {
+    	return 1;
+    }
+
     QQmlContext * rootCtx = engine.rootContext();
-    rootCtx->setContextProperty("backendEngineInterface", controller::getBackendEngineInterface());
+    rootCtx->setContextProperty("backendEngineInterface", backendEngineInterface);
 
     return app.exec();
 }
