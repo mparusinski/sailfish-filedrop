@@ -44,8 +44,15 @@ int main(int argc, char *argv[])
 
     BackendEngineInterfacePtr backendEngineInterface = 
     	new controller::BackendEngineInterface;
-    if (!backendEngineInterface->initializeBackend()) {
-    	return 1;
+        
+    if (!backendEngineInterface->initialize()) {
+        // TODO: REPORT MEMORY ALLOCATION PROBLEM
+    	return -1;
+    }
+
+    if (!backendEngineInterface->startNetworkingServices()) {
+        // TODO: REPORT NETWORKING PROBLEM
+        return -1;
     }
 
     QQmlContext * rootCtx = engine.rootContext();

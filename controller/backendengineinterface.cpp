@@ -38,7 +38,12 @@ namespace controller {
 
 	bool BackendEngineInterface::initialize()
 	{
-		return m_discoveryServer.initialize())
+		return m_discoveryServer.initialize();
+	}
+
+	bool BackendEngineInterface::startNetworkingServices()
+	{
+		return m_discoveryServer.startServer();
 	}
 
 } // namespace controller

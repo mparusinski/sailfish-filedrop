@@ -49,7 +49,9 @@ namespace controller {
 	public:
 	    explicit BackendEngineInterface(QObject *parent = 0);
 
-	    bool initializeBackend();
+	    bool initialize();
+
+	    bool startNetworkingServices();
 
 	signals:
 
