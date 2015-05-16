@@ -4,7 +4,7 @@ QT += qml quick network
 
 SOURCES += main.cpp \
     controller/backendengineinterface.cpp \
-    networking/networkdiscoverythread.cpp \
+    networking/discoveryserver.cpp \
     networking/devices.cpp
 
 RESOURCES += qml.qrc
@@ -18,5 +18,5 @@ include(deployment.pri)
 HEADERS += \
     common/sailfish-postbox-desktop-defines.h \
     controller/backendengineinterface.h \
-    networking/networkdiscoverythread.h \
+    networking/discoveryserver.h \
     networking/devices.h

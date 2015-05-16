@@ -27,18 +27,58 @@
  * SUCH DAMAGE.
  */
 
-#include "backendengineinterface.h"
+#include "devices.h"
 
-namespace controller {
+#include "common/sailfish-postbox-desktop-defines.h"
 
-	BackendEngineInterface::BackendEngineInterface(QObject *parent) : QObject(parent)
+namespace networking {
+
+	Device::Device(
+		const QHostAddress& deviceAddress,
+		const QString& deviceName,
+		quint16 postboxVersion,
+		QObject *parent
+	) : QObject(parent)
+	{
+		m_deviceAddress = deviceAddress;
+		m_deviceName = deviceName;
+		m_postboxVersion = postboxVersion;
+	}
+
+	Device::~Device()
 	{
 
 	}
 
-	bool BackendEngineInterface::initialize()
+	Device * readDevice(const QHostAddress& address, QDataStream& stream)
 	{
-		return m_discoveryServer.initialize())
+		quint16 postboxVersion = 0;
+		char deviceName[DEVICE_NAME_STRING_SIZE];
+		stream.readRawData(deviceName, DEVICE_NAME_STRING_SIZE);
+
+		// TODO: Put this in a separate function
+		// ------------------------------------------------
+		// Check the device name character array is valid
+		bool valid = false;
+		for (int i = 0; i < DEVICE_NAME_STRING_SIZE; i++) {
+			if (deviceName[i] == '\0') {
+				valid = true;
+				break;
+			}
+		}
+		// ------------------------------------------------
+
+		if (!valid)
+			return NULL;
+
+		QString qDeviceName(deviceName);
+		stream >> postboxVersion;
+
+		if (postboxVersion < DEVICE_MIN_VERSION_SUPPORTED || postboxVersion > DEVICE_MAX_VERSION_SUPPORTED)
+			return NULL;
+
+		Device * newDevice = new Device(address, qDeviceName, postboxVersion);
+		return newDevice;
 	}
 
-} // namespace controller
+} // namespace networking

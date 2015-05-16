@@ -27,18 +27,57 @@
  * SUCH DAMAGE.
  */
 
-#include "backendengineinterface.h"
+#ifndef DEVICES_H
+#define DEVICES_H
 
-namespace controller {
+#include <QObject>
+#include <QSharedPointer>
+#include <QHostAddress>
+#include <QString>
+#include <QDataStream>
 
-	BackendEngineInterface::BackendEngineInterface(QObject *parent) : QObject(parent)
+namespace networking {
+
+	/*!
+	 * \brief Device is an object representing a device which we can talk to
+	 *
+	 * Device provide all the information describing a device on the network and 
+	 * offers the ability to interact with it remotely
+	 */
+	class Device : public QObject
 	{
+	    Q_OBJECT
+	public:
+		typedef QSharedPointer<Device> DevicePtr;
 
-	}
+		explicit Device(
+			const QHostAddress& deviceAddress,
+			const QString& deviceName,
+			quint16 postboxVersion,
+			QObject *parent = 0
+		);
 
-	bool BackendEngineInterface::initialize()
-	{
-		return m_discoveryServer.initialize())
-	}
+		virtual ~Device();
 
-} // namespace controller
+	signals:
+
+	public slots:
+
+	private:
+		Q_DISABLE_COPY(Device)
+
+		QHostAddress m_deviceAddress;
+		QString m_deviceName;
+		quint16 m_postboxVersion;
+	};
+
+	/*!
+	 * \ brief Function takes a datastream as input and returns an newly allocated
+	 *         device. Function does not take ownership of the pointer
+	 * \returns null if device could not be allocated, newly allocated device if possibly
+	 */
+	Device * readDevice(const QHostAddress& address, QDataStream& stream);
+
+}
+
+#endif // DEVICES_H

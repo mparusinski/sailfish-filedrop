@@ -32,6 +32,8 @@
 
 #include <QObject>
 
+#include "networking/discoveryserver.h"
+
 namespace controller {
 
 	/*!
@@ -55,6 +57,8 @@ namespace controller {
 
 	private:
 	    Q_DISABLE_COPY(BackendEngineInterface)
+
+	    networking::DiscoveryServer m_discoveryServer;
 
 	};
 

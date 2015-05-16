@@ -27,18 +27,41 @@
  * SUCH DAMAGE.
  */
 
-#include "backendengineinterface.h"
+#ifndef DISCOVERYSERVER_H
+#define DISCOVERYSERVER_H
 
-namespace controller {
+#include <QUdpSocket>
 
-	BackendEngineInterface::BackendEngineInterface(QObject *parent) : QObject(parent)
+#include "networking/devices.h"
+
+namespace networking 
+{
+
+	class DiscoveryServer : public QObject 
 	{
+		Q_OBJECT
+	public:
+		explicit DiscoveryServer(QObject * parent = 0);
 
-	}
+		virtual ~DiscoveryServer();
 
-	bool BackendEngineInterface::initialize()
-	{
-		return m_discoveryServer.initialize())
-	}
+		bool initialize();
 
-} // namespace controller
+		bool startServer();
+
+	signals:
+		void foundSailfishDevice(Device::DevicePtr& device);
+
+	public slots:
+		void readPendingDatagrams();
+
+	private:
+		Q_DISABLE_COPY(DiscoveryServer)
+		QUdpSocket * m_receiverSocket;
+
+		void stopAnyRunningServer();
+	};
+
+} // networking
+
+ #endif // DISCOVERYSERVER_H
