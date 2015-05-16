@@ -1,0 +1,4 @@
+Rules:
+1 - Must follow QT C++ convention except for the rules mentionned here
+2 - Constructors must never fail. Always do initialization in a separate
+    function which returns a boolean.
