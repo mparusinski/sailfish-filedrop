@@ -33,7 +33,7 @@
 #include <QHostAddress>
 #include <QDataStream>
 
-#include "common/sailfish-postbox-desktop-defines.h"
+#include "common/sailfish-postbox-defines.h"
 
 namespace networking
 {
