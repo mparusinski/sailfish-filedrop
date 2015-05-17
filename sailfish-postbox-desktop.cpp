@@ -34,6 +34,9 @@
 
 #include "controller/backendengineinterface.h"
 
+/*
+ * Main function for the Desktop application
+ */
 int main(int argc, char *argv[])
 {
 	typedef QPointer<controller::BackendEngineInterface> BackendEngineInterfacePtr;
