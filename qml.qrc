@@ -1,6 +1,6 @@
 <RCC>
     <qresource prefix="/">
-        <file>sailfish-postbox-desktop.qml</file>
-        <file>SailfishPostboxDesktopForm.ui.qml</file>
+        <file>qml/sailfish-postbox-desktop.qml</file>
+        <file>qml/SailfishPostboxDesktopForm.ui.qml</file>
     </qresource>
 </RCC>
