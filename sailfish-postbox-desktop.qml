@@ -32,7 +32,7 @@ import QtQuick.Window 2.2
 
 Window {
     visible: true
-    MainForm {
+    SailfishPostboxDesktopForm {
         anchors.fill: parent
         mouseArea.onClicked: {
             Qt.quit();

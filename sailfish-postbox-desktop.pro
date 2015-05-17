@@ -2,7 +2,7 @@ TEMPLATE = app
 
 QT += qml quick network
 
-SOURCES += main.cpp \
+SOURCES += sailfish-postbox-desktop.cpp \
     controller/backendengineinterface.cpp \
     networking/discoveryserver.cpp \
     networking/devices.cpp
