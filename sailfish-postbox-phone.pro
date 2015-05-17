@@ -14,7 +14,7 @@ TARGET = sailfish-postbox-phone
 
 CONFIG += sailfishapp
 
-SOURCES += src/sailfish-postbox-phone.cpp
+SOURCES += sailfish-postbox-phone.cpp
 
 OTHER_FILES += qml/sailfish-postbox-phone.qml \
     qml/cover/CoverPage.qml \
