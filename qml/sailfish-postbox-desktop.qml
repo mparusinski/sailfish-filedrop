@@ -29,14 +29,36 @@
 
 import QtQuick 2.4
 import QtQuick.Window 2.2
+import QtGraphicalEffects 1.0
 
 Window {
     visible: true
-    SailfishPostboxDesktopForm {
-        anchors.fill: parent
-        mouseArea.onClicked: {
-            Qt.quit();
-        }
+    width: 480
+    height: 200
 
+    Rectangle {
+        id: mainRectangle
+        width: 480
+        height: 200
+
+        anchors.fill: parent
+
+        color: "white"
+        visible: true
+        opacity: 1
+
+        // Linear Gradient won't work
+
+        Text {
+            id: welcomeMessage
+            color: "#2040f0"
+            text: qsTr("Scanning Local Network")
+            font.bold: true
+            verticalAlignment: Text.AlignVCenter
+            horizontalAlignment: Text.AlignHCenter
+            anchors.horizontalCenter: parent.horizontalCenter
+            anchors.verticalCenter: parent.verticalCenter
+            font.pixelSize: 22
+        }
     }
 }
